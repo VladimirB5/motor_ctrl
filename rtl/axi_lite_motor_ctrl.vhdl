@@ -5,7 +5,7 @@ use IEEE.numeric_std.all;
 library work;
 use work.axi_lite_regs_pkg.all;
 
-ENTITY axi_lite IS
+ENTITY axi_lite_motor_ctrl IS
   port (
   -- Global signals
   ACLK    : IN std_logic;
@@ -45,9 +45,9 @@ ENTITY axi_lite IS
   red_led     : OUT std_logic;
   green_led   : OUT std_logic
   ); 
-END ENTITY axi_lite;
+END ENTITY axi_lite_motor_ctrl;
 
-ARCHITECTURE rtl OF axi_lite IS
+ARCHITECTURE rtl OF axi_lite_motor_ctrl IS
   -- signals
   signal busy : std_logic;
   -- output registers

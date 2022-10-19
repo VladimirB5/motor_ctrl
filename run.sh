@@ -14,7 +14,7 @@
 
 #compile 
 ghdl -a --std=08 rtl/axi_lite_regs_pkg.vhdl
-ghdl -a --std=08 rtl/axi_lite.vhdl
+ghdl -a --std=08 rtl/axi_lite_motor_ctrl.vhdl
 ghdl -a --std=08 -fpsl rtl/motor_ctrl.vhdl
 ghdl -a --std=08 rtl/motor_ctrl_top.vhdl
 #ghdl -a --std=08 -fpsl rtl/fifo_sync.vhd

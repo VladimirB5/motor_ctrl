@@ -49,7 +49,7 @@ END ENTITY motor_ctrl_top;
 
 ARCHITECTURE rtl OF motor_ctrl_top IS
 
-COMPONENT axi_lite IS
+COMPONENT axi_lite_motor_ctrl IS
   port (
   -- Global signals
   ACLK    : IN std_logic;
@@ -119,7 +119,7 @@ END COMPONENT;
 
 BEGIN
 
-  i_axi_lite: axi_lite
+  i_axi_lite_motor: axi_lite_motor_ctrl
   port map (
   -- Global signals
   ACLK    => ACLK,
