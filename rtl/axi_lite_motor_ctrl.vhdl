@@ -42,6 +42,7 @@ ENTITY axi_lite_motor_ctrl IS
   rev_cmd_b   : OUT std_logic; -- reverse channel b
   channel_a   : OUT std_logic_vector(7 downto 0); -- channel a pwm
   channel_b   : OUT std_logic_vector(7 downto 0); -- channel b pwm
+  pwm_freq    : OUT std_logic_vector(15 downto 0); -- pwm freq
   red_led     : OUT std_logic;
   green_led   : OUT std_logic
   ); 
@@ -167,6 +168,8 @@ ARCHITECTURE rtl OF axi_lite_motor_ctrl IS
           rdata_c(0)           <= reg_s.rev_cmd_b;
           rdata_c(15 downto 8) <= reg_s.channel_a;
           rdata_c(23 downto 16)<= reg_s.channel_b;
+        WHEN C_ADDR_PWM =>
+          rdata_c(15 downto 0) <= reg_c.pwm_freq;
         WHEN C_ADDR_LED =>
           rdata_c(1)           <= reg_s.green;
           rdata_c(0)           <= reg_s.red;
@@ -230,6 +233,8 @@ ARCHITECTURE rtl OF axi_lite_motor_ctrl IS
             reg_c.rev_cmd_b <= WDATA(0);
             reg_c.channel_a <= WDATA(15 downto 8);
             reg_c.channel_b <= WDATA(23 downto 16);
+          WHEN C_ADDR_PWM =>
+            reg_c.pwm_freq <= WDATA(15 downto 0);
           WHEN C_ADDR_LED  =>
             reg_c.green <= WDATA(1);
             reg_c.red   <= WDATA(0);
@@ -269,5 +274,6 @@ ARCHITECTURE rtl OF axi_lite_motor_ctrl IS
   channel_b <= reg_s.channel_b;
   red_led   <= reg_s.red;
   green_led <= reg_s.green;
+  pwm_freq  <= reg_s.pwm_freq;
 END ARCHITECTURE RTL;
  

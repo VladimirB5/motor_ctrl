@@ -33,6 +33,13 @@ begin
      ctrl.rst_n <= '1';
           
      wait for us;
+
+     -- set PWM freq to 1 kHz
+     -- 0,001 / 1/(100mHz / 256) => 391
+     address <= x"0000000C";
+     data    <= x"00000187"; -- set PWM freq
+     axi_write(axi_m_in, axi_m_out, address, data);
+
      address <= x"00000000";
      data    <= x"00000001"; -- enable motor controler
      axi_write(axi_m_in, axi_m_out, address, data);
@@ -49,7 +56,7 @@ begin
      axi_write(axi_m_in, axi_m_out, address, data);
      
      -- set read led to '1'
-     address <= x"0000000C";
+     address <= x"00000010";
      data    <= x"00000001";
      axi_write(axi_m_in, axi_m_out, address, data);
 
@@ -64,7 +71,7 @@ begin
      end if;
 
      -- set green led to '1'
-     address <= x"0000000C";
+     address <= x"00000010";
      data    <= x"00000002";
      axi_write(axi_m_in, axi_m_out, address, data);
 
@@ -79,7 +86,7 @@ begin
      end if;
 
      -- set read and green led to '1'
-     address <= x"0000000C";
+     address <= x"00000010";
      data    <= x"00000003";
      axi_write(axi_m_in, axi_m_out, address, data);
 
@@ -92,7 +99,7 @@ begin
        report "Bad value of green and red led (3)" severity FAILURE;
      end if;
 
-     wait for 500 us;
+     wait for 10 ms;
      
      ctrl.stop_sim <= true;
      --report "simulation finished successfully" severity FAILURE;

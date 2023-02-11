@@ -86,6 +86,7 @@ COMPONENT axi_lite_motor_ctrl IS
   rev_cmd_b   : OUT std_logic; -- reverse channel b
   channel_a   : OUT std_logic_vector(7 downto 0); -- channel a pwm
   channel_b   : OUT std_logic_vector(7 downto 0); -- channel b pwm
+  pwm_freq    : OUT std_logic_vector(15 downto 0); -- PWM freq
   red_led     : OUT std_logic;
   green_led   : OUT std_logic
   );
@@ -102,6 +103,7 @@ COMPONENT motor_ctrl IS
    rev_cmd_b   : IN std_logic; -- reverse channel b
    channel_a   : IN std_logic_vector(7 downto 0); -- channel a pwm
    channel_b   : IN std_logic_vector(7 downto 0); -- channel b pwm
+   pwm_freq    : IN std_logic_vector(15 downto 0); -- pwm freq
    -- to motor controler
    for_a       : OUT std_logic;
    rev_a       : OUT std_logic;
@@ -116,6 +118,7 @@ END COMPONENT;
   signal rev_cmd_b : std_logic;
   signal channel_a : std_logic_vector(7 downto 0);
   signal channel_b : std_logic_vector(7 downto 0);
+  signal pwm_freq  : std_logic_vector(15 downto 0);
 
 BEGIN
 
@@ -156,6 +159,7 @@ BEGIN
   rev_cmd_b => rev_cmd_b,
   channel_a => channel_a,
   channel_b => channel_b,
+  pwm_freq  => pwm_freq,
   red_led   => red_led,
   green_led => green_led
   );
@@ -171,6 +175,7 @@ BEGIN
    rev_cmd_b   => rev_cmd_b,
    channel_a   => channel_a,
    channel_b   => channel_b,
+   pwm_freq    => pwm_freq,
    -- to motor controler
    for_a       => for_a,
    rev_a       => rev_a,
