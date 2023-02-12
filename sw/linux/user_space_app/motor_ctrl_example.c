@@ -13,8 +13,9 @@
 #define MOTOR_IO_CLK_ENA    _IOW(MOTOR_CTRL_MAGIC, 1, int)
 #define MOTOR_IO_RUN        _IOW(MOTOR_CTRL_MAGIC, 2, int)
 #define MOTOR_IO_PWM_CTRL   _IOW(MOTOR_CTRL_MAGIC, 3, int)
-#define MOTOR_IO_RED_LED    _IOW(MOTOR_CTRL_MAGIC, 4, int)
-#define MOTOR_IO_GREEN_LED  _IOW(MOTOR_CTRL_MAGIC, 5, int)
+#define MOTOR_IO_PWM_FREQ   _IOW(MOTOR_CTRL_MAGIC, 4, int)
+#define MOTOR_IO_RED_LED    _IOW(MOTOR_CTRL_MAGIC, 5, int)
+#define MOTOR_IO_GREEN_LED  _IOW(MOTOR_CTRL_MAGIC, 6, int)
 
 
 int fd;
@@ -22,7 +23,7 @@ int fd;
 int main(){
    int ret;
    int i;
-   unsigned int data_val[5];
+   unsigned int data_val[6];
 
 
    printf("Starting device test code example...\n");
@@ -45,13 +46,13 @@ int main(){
    ret = ioctl(fd, MOTOR_IO_GREEN_LED, 1);
    printf("ret:%d ioctl comm 3.\n", ret);
 
-   ret = read(fd, (void*) data_val, 5); // read data from register
+   ret = read(fd, (void*) data_val, 6); // read data from register
    if (ret < 0){
       perror("Failed to read the message to the device.");
       return errno;
    }
 
-   for (i = 0; i < 5; i++) {
+   for (i = 0; i < 6; i++) {
      printf("data[%d]: %X\n", i, data_val[i]);
    }
 

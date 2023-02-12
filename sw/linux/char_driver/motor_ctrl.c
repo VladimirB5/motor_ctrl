@@ -26,9 +26,10 @@
 #define  C_ADDR_CLK_ENA 0x00            // enable clock for block
 #define  C_ADDR_RUN 0x04                // run PWM modulation
 #define  C_ADDR_PWM_CTRL 0x08              // motor control register
-#define  C_ADDR_LED 0x0C                // led control
-#define  C_ADDR_TEST 0x10               // RO test register
-#define  C_NUM_REG 5               // number of readable registers
+#define  C_ADDR_PWM_FREQ 0x0C              // motor PWM freq register
+#define  C_ADDR_LED 0x10                // led control
+#define  C_ADDR_TEST 0x14               // RO test register
+#define  C_NUM_REG 6               // number of readable registers
 
 /* Use '81' as magic number */
 #define MOTOR_CTRL_MAGIC 81
@@ -36,8 +37,9 @@
 #define MOTOR_IO_CLK_ENA    _IOW(MOTOR_CTRL_MAGIC, 1, int)
 #define MOTOR_IO_RUN        _IOW(MOTOR_CTRL_MAGIC, 2, int)
 #define MOTOR_IO_PWM_CTRL   _IOW(MOTOR_CTRL_MAGIC, 3, int)
-#define MOTOR_IO_RED_LED    _IOW(MOTOR_CTRL_MAGIC, 4, int)
-#define MOTOR_IO_GREEN_LED  _IOW(MOTOR_CTRL_MAGIC, 5, int)
+#define MOTOR_IO_PWM_FREQ   _IOW(MOTOR_CTRL_MAGIC, 4, int)
+#define MOTOR_IO_RED_LED    _IOW(MOTOR_CTRL_MAGIC, 5, int)
+#define MOTOR_IO_GREEN_LED  _IOW(MOTOR_CTRL_MAGIC, 6, int)
 
 MODULE_LICENSE("GPL");            ///< The license type -- this affects available functionality
 MODULE_AUTHOR("Vladimir Beran");    ///< The author -- visible when you use modinfo
@@ -201,8 +203,9 @@ static ssize_t dev_read(struct file *filep, char *buffer, size_t len, loff_t *of
      data[0] = readl(virt+C_ADDR_CLK_ENA);
      data[1] = readl(virt+C_ADDR_RUN);
      data[2] = readl(virt+C_ADDR_PWM_CTRL);
-     data[3] = readl(virt+C_ADDR_LED);
-     data[4] = readl(virt+C_ADDR_TEST);
+     data[3] = readl(virt+C_ADDR_PWM_FREQ);
+     data[4] = readl(virt+C_ADDR_LED);
+     data[5] = readl(virt+C_ADDR_TEST);
      error_count = copy_to_user(buffer, data, len*4);
      return 1;
    } else { // read nothing
@@ -260,6 +263,12 @@ static long dev_ioctl(struct file *filep, unsigned int _cmd, unsigned long _arg)
         {
           writel(_arg ,virt + C_ADDR_PWM_CTRL);
           wmb();                
+          return 0;
+        }
+        case MOTOR_IO_PWM_FREQ: // PWM freq
+        {
+          writel(_arg ,virt + C_ADDR_PWM_FREQ);
+          wmb();
           return 0;
         }
         case MOTOR_IO_RED_LED: // red LED ena
